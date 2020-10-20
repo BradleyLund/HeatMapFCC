@@ -1,23 +1,38 @@
-const svg = d3.select('svg');
+fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/global-temperature.json')
+  .then(response => response.json())
+  .then(data=> {
 
-const height = +svg.attr('height');
-const width = +svg.attr('width');
+    console.log(data)
 
-const padding = 50;
+    const svg = d3.select('svg');
 
-var xAxisScale = d3.scaleLinear() //could be issues with the type of scale
-    .range([padding,width-padding]);
+    const height = +svg.attr('height');
+    const width = +svg.attr('width');
 
-var yAxisScale = d3.scaleLinear()
-    .range([0,height-padding]);
+    const padding = 50;
 
-var xAxis = d3.axisBottom(xAxisScale)
-    .tickFormat(d3.format("d"))
+    var xAxisScale = d3.scaleLinear() //could be issues with the type of scale
+        .range([padding,width-padding]);
 
-var gX = svg.append("g")
+    var yAxisScale = d3.scaleLinear()
+        .range([0,height-padding]);
+
+    var xAxis = d3.axisBottom(xAxisScale)
+        .tickFormat(d3.format("d"))
+
+   
+
+    xAxisScale.domain(d3.extent(data,d=>{
+        return d.Year
+    }))
+
+    var gX = svg.append("g")
     .attr('id','x-axis')
     .attr('transform','translate(0,'+(height-padding)+')')
     .call(xAxis)
+
+
+  })
 
 
 
