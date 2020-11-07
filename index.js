@@ -99,7 +99,13 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
 
     console.log(colorPicker(3))
 
-    svg.append('g')
+    d3.select('body').append('div')
+      .attr('id','tooltip')
+      .attr('style','position:absolute; opacity: 0;')
+
+
+
+    var rectangles = svg.append('g')
       .selectAll("rect")
       .data(data.monthlyVariance)
       .enter()
@@ -113,6 +119,8 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .attr('fill',d=>{return colorPicker(8.66+d.variance)})
       .attr('height',rectHeight)
       .attr('width',rectWidth)
+      .on('mouseover', d=>{alert(d)})
+     
       
 
     let dataLegend = [{temp:3},{temp:4.5},{temp:5.5},{temp:6.6},{temp:7.7},{temp:8.8},{temp:9.9},{temp:11.1},{temp:12}]
@@ -133,6 +141,10 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .attr('stroke','black')
 
 
+
+
+// Test if this will work after I get it working in the main one
+      // rectangles.on("mouseover",d=>{})
 
 
   })
