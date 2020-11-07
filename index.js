@@ -5,6 +5,10 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
 
     const svg = d3.select('svg');
 
+    var tooltip = d3.select('body').append('div')
+    .attr("id", "tooltip")
+    .style("opacity",0)
+
     const height = +svg.attr('height');
     const width = +svg.attr('width');
 
@@ -104,6 +108,20 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .attr('style','position:absolute; opacity: 0;')
 
 
+      var month = new Array();
+      month[0] = "January";
+      month[1] = "February";
+      month[2] = "March";
+      month[3] = "April";
+      month[4] = "May";
+      month[5] = "June";
+      month[6] = "July";
+      month[7] = "August";
+      month[8] = "September";
+      month[9] = "October";
+      month[10] = "November";
+      month[11] = "December";
+      
 
     var rectangles = svg.append('g')
       .selectAll("rect")
@@ -119,7 +137,20 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
       .attr('fill',d=>{return colorPicker(8.66+d.variance)})
       .attr('height',rectHeight)
       .attr('width',rectWidth)
-      .on('mouseover', d=>{alert(d)})
+      .on('mouseover',function(d,i) {
+        tooltip.transition()
+          .style('opacity',1)
+          .attr('data-year',d.year)
+        tooltip.html('Year: '+d.year +'<br>'+'Month: ' + month[d.month-1])
+          .style('left',d3.event.pageX+'px')
+          .style('top',d3.event.pageY+30+'px')
+        
+      })
+      .on('mouseout',function(d,i) {
+        tooltip.transition()
+          .style('opacity',0)
+      })
+      
      
       
 
