@@ -13,13 +13,10 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
     var xAxisScale = d3.scaleLinear() //could be issues with the type of scale
         .range([padding,width-padding]);
 
-    const yScale = d3.scaleTime()
-        .domain(['January','February'])
-        .range([padding+50, height-padding]);
 
-        const yAxis = d3.axisLeft(yScale)
-          .tickFormat(d3.timeFormat("%B"));
 
+
+    
 
     var xAxis = d3.axisBottom(xAxisScale)
         .tickFormat(d3.format("d"))
@@ -32,11 +29,29 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
         yearArr.push(data.monthlyVariance[i].year)
     }
 
-    console.log(d3.extent(yearArr))
+
 
 
 
     xAxisScale.domain(d3.extent(yearArr));
+
+    var z = d3.scaleTime()
+      .domain([new Date(2000,0,1),new Date(2000,11,31)])
+      .range([height-padding,10]);
+
+    var zAxis = d3.axisLeft(z)
+      // .ticks(d3.time.months)
+      .tickFormat(d3.timeFormat("%B"));
+
+    var gZ = svg.append("g")
+      .attr('transform','translate(100,0)')
+      .call(zAxis)
+      .selectAll("text")	
+      .style("text-anchor", "end")
+      .attr("dx", "-.8em")
+      .attr("dy", ".15em")
+      .attr("transform", "translate(10,-15)");
+
 
 
     var gX = svg.append("g")
@@ -44,10 +59,7 @@ fetch('https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/maste
     .attr('transform','translate(0,'+(height-padding)+')')
     .call(xAxis)
 
-    var gY = svg.append("g")
-    .attr("transform","translate(100,0)")
-    .attr('id','y-axis')
-    .call(yAxis)
+
 
 
   })
